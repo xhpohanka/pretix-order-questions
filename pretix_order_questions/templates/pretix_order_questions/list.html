@@ -1,0 +1,47 @@
+{% extends "pretixcontrol/event/settings_base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Order questions" %}{% endblock %}
+
+{% block inside %}
+    <h1>{% trans "Order questions" %}</h1>
+    <p>{% blocktrans trimmed %}
+        These questions are asked once per order together with the customer's contact information.
+    {% endblocktrans %}</p>
+    <p>
+        <a class="btn btn-default" href="{% url 'plugins:pretix_order_questions:add' organizer=request.organizer.slug event=request.event.slug %}">
+            <span class="fa fa-plus"></span> {% trans "Create a new question" %}
+        </a>
+    </p>
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>{% trans "Question" %}</th>
+                    <th>{% trans "Type" %}</th>
+                    <th>{% trans "Required" %}</th>
+                    <th>{% trans "Active" %}</th>
+                    <th>{% trans "Position" %}</th>
+                    <th class="action-col-2"></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for question in questions %}
+                    <tr>
+                        <td><strong>{{ question.question }}</strong><br><small class="text-muted">{{ question.identifier }}</small></td>
+                        <td>{{ question.get_type_display }}</td>
+                        <td>{% if question.required %}<span class="fa fa-check"></span>{% endif %}</td>
+                        <td>{% if question.active %}<span class="fa fa-check"></span>{% else %}<span class="text-muted">{% trans "No" %}</span>{% endif %}</td>
+                        <td>{{ question.position }}</td>
+                        <td class="text-right flip">
+                            <a class="btn btn-default btn-sm" href="{% url 'plugins:pretix_order_questions:edit' organizer=request.organizer.slug event=request.event.slug pk=question.pk %}"><span class="fa fa-edit"></span></a>
+                            <a class="btn btn-danger btn-sm" href="{% url 'plugins:pretix_order_questions:delete' organizer=request.organizer.slug event=request.event.slug question=question.pk %}"><span class="fa fa-trash"></span></a>
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr><td colspan="6">{% trans "No order questions have been configured." %}</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

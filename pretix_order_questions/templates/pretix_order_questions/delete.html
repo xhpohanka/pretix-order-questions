@@ -1,0 +1,20 @@
+{% extends "pretixcontrol/event/settings_base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Delete order question" %}{% endblock %}
+
+{% block inside %}
+    <h1>{% trans "Delete order question" %}</h1>
+    <form method="post">
+        {% csrf_token %}
+        <div class="alert alert-danger">
+            {% blocktrans trimmed with question=question.question %}
+                Do you really want to delete the question “{{ question }}”? Existing answers to this question will also be deleted.
+            {% endblocktrans %}
+        </div>
+        <div class="form-group submit-group">
+            <a class="btn btn-default" href="{% url 'plugins:pretix_order_questions:list' organizer=request.organizer.slug event=request.event.slug %}">{% trans "Cancel" %}</a>
+            <button type="submit" class="btn btn-danger">{% trans "Delete" %}</button>
+        </div>
+    </form>
+{% endblock %}

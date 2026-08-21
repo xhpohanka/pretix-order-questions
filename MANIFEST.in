@@ -1,0 +1,3 @@
+recursive-include pretix_order_questions/templates *
+recursive-include pretix_order_questions/locale *
+include LICENSE

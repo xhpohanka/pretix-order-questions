@@ -1,0 +1,208 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-08-21 11:18+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: cs\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n "
+"<= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;\n"
+#: pretix_order_questions/apps.py:10 pretix_order_questions/apps.py:13
+#: pretix_order_questions/apps.py:21
+#: pretix_order_questions/templates/pretix_order_questions/control_order_info.html:3
+#: pretix_order_questions/templates/pretix_order_questions/list.html:4
+#: pretix_order_questions/templates/pretix_order_questions/list.html:7
+msgid "Order questions"
+msgstr "Otázky k objednávce"
+
+#: pretix_order_questions/apps.py:15
+msgid "Ask custom questions once per order instead of once per ticket."
+msgstr "Pokládejte vlastní otázky jednou za objednávku místo jednou za vstupenku."
+
+#: pretix_order_questions/apps.py:21
+msgid "Settings"
+msgstr "Nastavení"
+
+#: pretix_order_questions/forms.py:13 pretix_order_questions/models.py:31
+#: pretix_order_questions/templates/pretix_order_questions/list.html:20
+msgid "Question"
+msgstr "Otázka"
+
+#: pretix_order_questions/forms.py:29
+msgid ""
+"The question type cannot be changed after answers have been recorded. "
+"Disable this question and create a new one instead."
+msgstr "Typ otázky nelze změnit poté, co byly zaznamenány odpovědi. Tuto otázku vypněte a vytvořte místo ní novou."
+
+#: pretix_order_questions/forms.py:36 pretix_order_questions/models.py:35
+msgid "Internal identifier"
+msgstr "Interní identifikátor"
+
+#: pretix_order_questions/models.py:12
+msgid ""
+"The identifier may only contain letters, numbers, dots, dashes, and "
+"underscores."
+msgstr "Identifikátor smí obsahovat pouze písmena, číslice, tečky, pomlčky a podtržítka."
+
+#: pretix_order_questions/models.py:23
+msgid "Text (one line)"
+msgstr "Text (jeden řádek)"
+
+#: pretix_order_questions/models.py:24
+msgid "Multiline text"
+msgstr "Víceřádkový text"
+
+#: pretix_order_questions/models.py:25
+msgid "Yes/No"
+msgstr "Ano/ne"
+
+#: pretix_order_questions/models.py:26
+msgid "Choose one from a list"
+msgstr "Výběr jedné možnosti ze seznamu"
+
+#: pretix_order_questions/models.py:27
+msgid "Choose multiple from a list"
+msgstr "Výběr více možností ze seznamu"
+
+#: pretix_order_questions/models.py:32
+msgid "Help text"
+msgstr "Text nápovědy"
+
+#: pretix_order_questions/models.py:37
+msgid ""
+"Used for exports and integrations. Leave empty to generate it automatically."
+msgstr "Používá se pro exporty a integrace. Ponechte prázdné pro automatické vygenerování."
+
+#: pretix_order_questions/models.py:39
+msgid "Question type"
+msgstr "Typ otázky"
+
+#: pretix_order_questions/models.py:40
+msgid "Required question"
+msgstr "Povinná otázka"
+
+#: pretix_order_questions/models.py:41
+msgid "Ask this question during checkout"
+msgstr "Ptát se na tuto otázku během objednávky"
+
+#: pretix_order_questions/models.py:42
+#: pretix_order_questions/templates/pretix_order_questions/list.html:24
+msgid "Position"
+msgstr "Pořadí"
+
+#: pretix_order_questions/models.py:69
+msgid "Answer"
+msgstr "Odpověď"
+
+#: pretix_order_questions/models.py:104
+msgid "Yes"
+msgstr "Ano"
+
+#: pretix_order_questions/models.py:104
+#: pretix_order_questions/templates/pretix_order_questions/list.html:34
+msgid "No"
+msgstr "Ne"
+
+#: pretix_order_questions/templates/pretix_order_questions/delete.html:4
+#: pretix_order_questions/templates/pretix_order_questions/delete.html:7
+msgid "Delete order question"
+msgstr "Smazat otázku k objednávce"
+
+#: pretix_order_questions/templates/pretix_order_questions/delete.html:11
+#, python-format
+msgid ""
+"Do you really want to delete the question “%(question)s”? Existing answers "
+"to this question will also be deleted."
+msgstr "Opravdu chcete smazat otázku „%(question)s“? Existující odpovědi na tuto otázku budou také smazány."
+
+#: pretix_order_questions/templates/pretix_order_questions/delete.html:16
+msgid "Cancel"
+msgstr "Zrušit"
+
+#: pretix_order_questions/templates/pretix_order_questions/delete.html:17
+msgid "Delete"
+msgstr "Smazat"
+
+#: pretix_order_questions/templates/pretix_order_questions/form.html:7
+msgid "Order question"
+msgstr "Otázka k objednávce"
+
+#: pretix_order_questions/templates/pretix_order_questions/form.html:10
+msgid "New order question"
+msgstr "Nová otázka k objednávce"
+
+#: pretix_order_questions/templates/pretix_order_questions/form.html:15
+msgid "General"
+msgstr "Obecné"
+
+#: pretix_order_questions/templates/pretix_order_questions/form.html:25
+msgid "Answer options"
+msgstr "Možnosti odpovědi"
+
+#: pretix_order_questions/templates/pretix_order_questions/form.html:26
+msgid "Used only for single-choice and multiple-choice questions."
+msgstr "Používá se pouze pro otázky s výběrem jedné nebo více možností."
+
+#: pretix_order_questions/templates/pretix_order_questions/form.html:74
+msgid "Add a new option"
+msgstr "Přidat novou možnost"
+
+#: pretix_order_questions/templates/pretix_order_questions/form.html:78
+msgid "Save"
+msgstr "Uložit"
+
+#: pretix_order_questions/templates/pretix_order_questions/list.html:8
+msgid ""
+"These questions are asked once per order together with the customer's "
+"contact information."
+msgstr "Tyto otázky se pokládají jednou za objednávku společně s kontaktními údaji zákazníka."
+
+#: pretix_order_questions/templates/pretix_order_questions/list.html:13
+msgid "Create a new question"
+msgstr "Vytvořit novou otázku"
+
+#: pretix_order_questions/templates/pretix_order_questions/list.html:21
+msgid "Type"
+msgstr "Typ"
+
+#: pretix_order_questions/templates/pretix_order_questions/list.html:22
+msgid "Required"
+msgstr "Povinná"
+
+#: pretix_order_questions/templates/pretix_order_questions/list.html:23
+msgid "Active"
+msgstr "Aktivní"
+
+#: pretix_order_questions/templates/pretix_order_questions/list.html:42
+msgid "No order questions have been configured."
+msgstr "Nejsou nastaveny žádné otázky k objednávce."
+
+#: pretix_order_questions/templates/pretix_order_questions/presale_order_info.html:3
+msgid "Additional information"
+msgstr "Doplňující informace"
+
+#: pretix_order_questions/views.py:74
+msgid "Add at least one answer option for this question type."
+msgstr "Pro tento typ otázky přidejte alespoň jednu možnost odpovědi."
+
+#: pretix_order_questions/views.py:87
+msgid "The order question has been saved."
+msgstr "Otázka k objednávce byla uložena."
+
+#: pretix_order_questions/views.py:91
+msgid "We could not save your changes. See below for details."
+msgstr "Změny se nepodařilo uložit. Podrobnosti najdete níže."
+
+#: pretix_order_questions/views.py:116
+msgid "The order question has been deleted."
+msgstr "Otázka k objednávce byla smazána."

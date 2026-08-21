@@ -1,0 +1,29 @@
+[project]
+name = "pretix-order-questions"
+dynamic = ["version"]
+description = "Custom questions asked once per pretix order"
+readme = "README.md"
+license = {file = "LICENSE"}
+requires-python = ">=3.11"
+authors = [
+    {name = "Jan Pohanka"},
+]
+dependencies = [
+    "pretix>=2026.7.0.dev0",
+]
+
+[project.entry-points."pretix.plugin"]
+pretix_order_questions = "pretix_order_questions:PretixPluginMeta"
+
+[build-system]
+requires = ["setuptools", "pretix-plugin-build"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.dynamic]
+version = {attr = "pretix_order_questions.__version__"}
+
+[tool.setuptools.packages.find]
+include = ["pretix_order_questions*"]
