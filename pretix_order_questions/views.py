@@ -33,6 +33,7 @@ class OrderQuestionMixin(EventSettingsViewMixin, EventPermissionRequiredMixin):
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
+        kwargs["event"] = self.request.event
         if not kwargs.get("instance"):
             kwargs["instance"] = OrderQuestion(event=self.request.event)
         return kwargs
@@ -43,6 +44,7 @@ class OrderQuestionMixin(EventSettingsViewMixin, EventPermissionRequiredMixin):
             self.request.POST if self.request.method == "POST" else None,
             instance=instance,
             prefix="options",
+            form_kwargs={"event": self.request.event},
         )
 
     def get_context_data(self, **kwargs):
@@ -64,6 +66,7 @@ class OrderQuestionMixin(EventSettingsViewMixin, EventPermissionRequiredMixin):
             self.request.POST,
             instance=self.object,
             prefix="options",
+            form_kwargs={"event": self.request.event},
         )
         if not formset.is_valid():
             return self.form_invalid(form, formset=formset)

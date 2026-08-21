@@ -1,13 +1,30 @@
 from django import forms
 from django.dispatch import receiver
 from django.template.loader import get_template
+from django.urls import resolve, reverse
+from django.utils.translation import gettext_lazy as _
 
 from pretix.base.signals import event_copy_data, order_modified, order_placed
-from pretix.control.signals import order_info as control_order_info_signal
+from pretix.control.signals import nav_event_settings, order_info as control_order_info_signal
 from pretix.presale.signals import contact_form_fields, order_info as presale_order_info_signal
 
 from .models import OrderQuestion, OrderQuestionOption
 from .services import sync_order_answers
+
+
+@receiver(nav_event_settings, dispatch_uid="pretix_order_questions_nav_event_settings")
+def order_questions_settings_navigation(sender, request, **kwargs):
+    if not request.user.has_event_permission(
+            request.organizer, request.event, "event.settings.general:write", request=request):
+        return []
+    return [{
+        "label": _("Order questions"),
+        "url": reverse("plugins:pretix_order_questions:list", kwargs={
+            "organizer": request.organizer.slug,
+            "event": request.event.slug,
+        }),
+        "active": resolve(request.path_info).namespace == "plugins:pretix_order_questions",
+    }]
 
 
 def _field_for_question(question):

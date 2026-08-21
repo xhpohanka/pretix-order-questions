@@ -15,6 +15,7 @@ from pretix.testutils.sessions import get_cart_session_key
 
 from pretix_order_questions.models import OrderAnswer, OrderQuestion, OrderQuestionOption
 from pretix_order_questions.forms import OrderQuestionForm
+from pretix_order_questions.signals import order_questions_settings_navigation
 
 
 class OrderQuestionTest(TestCase):
@@ -174,11 +175,15 @@ class OrderQuestionTest(TestCase):
         self.assertEqual(OrderAnswer.objects.get(order=order, question=question).value, "Main office")
 
     def test_admin_views_render(self):
+        self.event.settings.locales = ["cs", "en"]
         response = self.client.get(reverse("plugins:pretix_order_questions:list", kwargs={
             "organizer": self.organizer.slug,
             "event": self.event.slug,
         }))
         self.assertEqual(response.status_code, 200)
+        links = order_questions_settings_navigation(self.event, response.wsgi_request)
+        self.assertEqual(len(links), 1)
+        self.assertTrue(links[0]["active"])
 
         response = self.client.get(reverse("plugins:pretix_order_questions:add", kwargs={
             "organizer": self.organizer.slug,
@@ -186,6 +191,11 @@ class OrderQuestionTest(TestCase):
         }))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "options-TOTAL_FORMS")
+        self.assertEqual(response.context["form"].fields["question"].widget.enabled_locales, ["cs", "en"])
+        self.assertEqual(
+            response.context["formset"].forms[0].fields["answer"].widget.enabled_locales,
+            ["cs", "en"],
+        )
 
         doc = BeautifulSoup(response.content.decode(), "lxml")
         question_input = doc.select_one('textarea[name^="question_"]')
