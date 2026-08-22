@@ -15,7 +15,7 @@ from pretix.testutils.sessions import get_cart_session_key
 
 from pretix_order_questions.models import OrderAnswer, OrderQuestion, OrderQuestionOption
 from pretix_order_questions.forms import OrderQuestionForm
-from pretix_order_questions.signals import order_questions_settings_navigation
+from pretix_order_questions.signals import _field_for_question, order_questions_settings_navigation
 
 
 class OrderQuestionTest(TestCase):
@@ -70,6 +70,37 @@ class OrderQuestionTest(TestCase):
         self.assertTrue(form.is_valid(), form.errors)
         self.assertEqual(form.cleaned_data[question.form_key], "theatre")
         self.assertNotIn(hidden.form_key, form.fields)
+
+    @scopes_disabled()
+    def test_checkout_confirmation_uses_choice_labels(self):
+        question = OrderQuestion.objects.create(
+            event=self.event,
+            question="Pickup point",
+            identifier="pickup",
+            type=OrderQuestion.TYPE_CHOICE,
+        )
+        OrderQuestionOption.objects.create(question=question, identifier="theatre", answer="Theatre")
+
+        field = _field_for_question(question)
+
+        self.assertEqual(field.bound_data("theatre", ""), "Theatre")
+        self.assertEqual(field.bound_data("unknown", ""), "unknown")
+
+    @scopes_disabled()
+    def test_checkout_confirmation_uses_multiple_choice_labels(self):
+        question = OrderQuestion.objects.create(
+            event=self.event,
+            question="Pickup points",
+            identifier="pickup",
+            type=OrderQuestion.TYPE_CHOICE_MULTIPLE,
+        )
+        OrderQuestionOption.objects.create(question=question, identifier="theatre", answer="Theatre")
+        OrderQuestionOption.objects.create(question=question, identifier="office", answer="Box office")
+
+        field = _field_for_question(question)
+
+        self.assertEqual(field.bound_data(["theatre", "office"], ""), "Theatre, Box office")
+        self.assertEqual(field.bound_data(["theatre", "unknown"], ""), "Theatre, unknown")
 
     @scopes_disabled()
     def test_checkout_saves_order_question_once_in_contact_data(self):

@@ -9,6 +9,29 @@ from pretix.base.forms import I18nModelForm
 from .models import OrderQuestion, OrderQuestionOption
 
 
+class DisplayChoiceField(forms.ChoiceField):
+    """Show choice labels when the core renders checkout confirmation data."""
+
+    def bound_data(self, data, initial):
+        data = super().bound_data(data, initial)
+        if data in (None, ""):
+            return data
+        labels = {str(value): str(label) for value, label in self.choices}
+        return labels.get(str(data), str(data))
+
+
+class DisplayMultipleChoiceField(forms.MultipleChoiceField):
+    """Show all selected choice labels in the checkout confirmation."""
+
+    def bound_data(self, data, initial):
+        data = super().bound_data(data, initial)
+        if not data:
+            return data
+        labels = {str(value): str(label) for value, label in self.choices}
+        values = data if isinstance(data, (list, tuple)) else [data]
+        return ", ".join(labels.get(str(value), str(value)) for value in values)
+
+
 class OrderQuestionForm(I18nModelForm):
     question = I18nFormField(label=_("Question"), widget=I18nTextarea, widget_kwargs={"attrs": {"rows": 2}})
 
@@ -21,6 +44,11 @@ class OrderQuestionForm(I18nModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields["identifier"].required = False
+        self.fields["identifier"].label = _("Internal question identifier")
+        self.fields["identifier"].help_text = _(
+            "Used for exports and integrations, not shown to customers. "
+            "Leave empty to generate it automatically."
+        )
 
     def clean_type(self):
         value = self.cleaned_data["type"]
@@ -33,7 +61,11 @@ class OrderQuestionForm(I18nModelForm):
 
 
 class OrderQuestionOptionForm(I18nModelForm):
-    identifier = forms.CharField(required=False, label=_("Internal identifier"))
+    identifier = forms.CharField(
+        required=False,
+        label=_("Internal answer identifier"),
+        help_text=_("Used for stored answers and integrations; customers see the answer text."),
+    )
 
     class Meta:
         model = OrderQuestionOption

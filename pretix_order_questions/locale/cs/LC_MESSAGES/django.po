@@ -44,9 +44,25 @@ msgid ""
 "Disable this question and create a new one instead."
 msgstr "Typ otázky nelze změnit poté, co byly zaznamenány odpovědi. Tuto otázku vypněte a vytvořte místo ní novou."
 
-#: pretix_order_questions/forms.py:36 pretix_order_questions/models.py:35
+#: pretix_order_questions/forms.py:37 pretix_order_questions/models.py:35
 msgid "Internal identifier"
 msgstr "Interní identifikátor"
+
+#: pretix_order_questions/forms.py:39
+msgid "Internal question identifier"
+msgstr "Interní identifikátor otázky"
+
+#: pretix_order_questions/forms.py:41
+msgid "Used for exports and integrations, not shown to customers. Leave empty to generate it automatically."
+msgstr "Používá se pro exporty a integrace, zákazníkům se nezobrazuje. Ponechte prázdné pro automatické vygenerování."
+
+#: pretix_order_questions/forms.py:76
+msgid "Internal answer identifier"
+msgstr "Interní identifikátor odpovědi"
+
+#: pretix_order_questions/forms.py:77
+msgid "Used for stored answers and integrations; customers see the answer text."
+msgstr "Používá se pro uložené odpovědi a integrace; zákazníkům se zobrazuje text odpovědi."
 
 #: pretix_order_questions/models.py:12
 msgid ""

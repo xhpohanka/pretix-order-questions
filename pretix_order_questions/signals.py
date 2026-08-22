@@ -8,6 +8,7 @@ from pretix.base.signals import event_copy_data, order_modified, order_placed
 from pretix.control.signals import nav_event_settings, order_info as control_order_info_signal
 from pretix.presale.signals import contact_form_fields, order_info as presale_order_info_signal
 
+from .forms import DisplayChoiceField, DisplayMultipleChoiceField
 from .models import OrderQuestion, OrderQuestionOption
 from .services import sync_order_answers
 
@@ -40,9 +41,9 @@ def _field_for_question(question):
 
     choices = [(option.identifier, option.answer) for option in question.options.all()]
     if question.type == OrderQuestion.TYPE_CHOICE:
-        return forms.ChoiceField(choices=[("", "---------"), *choices], **kwargs)
+        return DisplayChoiceField(choices=[("", "---------"), *choices], **kwargs)
     if question.type == OrderQuestion.TYPE_CHOICE_MULTIPLE:
-        return forms.MultipleChoiceField(
+        return DisplayMultipleChoiceField(
             choices=choices,
             widget=forms.CheckboxSelectMultiple,
             **kwargs,
