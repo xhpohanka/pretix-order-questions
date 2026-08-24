@@ -68,24 +68,30 @@ class OrderQuestionMixin(EventSettingsViewMixin, EventPermissionRequiredMixin):
             prefix="options",
             form_kwargs={"event": self.request.event},
         )
-        if not formset.is_valid():
-            return self.form_invalid(form, formset=formset)
-
         choice_type = self.object.type in (OrderQuestion.TYPE_CHOICE, OrderQuestion.TYPE_CHOICE_MULTIPLE)
-        option_forms = [f for f in formset.forms if f.cleaned_data and not f.cleaned_data.get("DELETE")]
-        if choice_type and not option_forms:
-            form.add_error("type", _("Add at least one answer option for this question type."))
-            return self.form_invalid(form, formset=formset)
+        if choice_type:
+            if not formset.is_valid():
+                return self.form_invalid(form, formset=formset)
+
+            option_forms = [f for f in formset.forms if f.cleaned_data and not f.cleaned_data.get("DELETE")]
+            if not option_forms:
+                form.add_error("type", _("Add at least one answer option for this question type."))
+                return self.form_invalid(form, formset=formset)
 
         self.object.save()
-        for deleted_form in formset.deleted_forms:
-            if deleted_form.instance.pk:
-                deleted_form.instance.delete()
-        for position, option_form in enumerate(formset.ordered_forms):
-            option = option_form.save(commit=False)
-            option.question = self.object
-            option.position = position
-            option.save()
+        if choice_type:
+            for deleted_form in formset.deleted_forms:
+                if deleted_form.instance.pk:
+                    deleted_form.instance.delete()
+            for position, option_form in enumerate(formset.ordered_forms):
+                option = option_form.save(commit=False)
+                option.question = self.object
+                option.position = position
+                option.save()
+        else:
+            # Options are not used by text/boolean questions. Remove stale
+            # options when changing a question away from a choice type.
+            self.object.options.all().delete()
 
         messages.success(self.request, _("The order question has been saved."))
         return super().form_valid(form)

@@ -256,6 +256,27 @@ class OrderQuestionTest(TestCase):
         self.assertTrue(question.required)
         self.assertEqual(question.options.get().identifier, "theatre")
 
+        response = self.client.get(reverse("plugins:pretix_order_questions:add", kwargs={
+            "organizer": self.organizer.slug,
+            "event": self.event.slug,
+        }))
+        doc = BeautifulSoup(response.content.decode(), "lxml")
+        question_input = doc.select_one('textarea[name^="question_"]')
+        response = self.client.post(reverse("plugins:pretix_order_questions:add", kwargs={
+            "organizer": self.organizer.slug,
+            "event": self.event.slug,
+        }), {
+            question_input["name"]: "Pickup instructions",
+            "type": OrderQuestion.TYPE_TEXT,
+            "active": "on",
+            "position": "0",
+            "identifier": "instructions",
+        })
+        self.assertEqual(response.status_code, 302)
+        text_question = OrderQuestion.objects.get(event=self.event, identifier="instructions")
+        self.assertEqual(text_question.type, OrderQuestion.TYPE_TEXT)
+        self.assertFalse(text_question.options.exists())
+
     @scopes_disabled()
     def test_event_copy_includes_questions_and_options(self):
         question = OrderQuestion.objects.create(
