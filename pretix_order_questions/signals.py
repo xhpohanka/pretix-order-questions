@@ -4,6 +4,7 @@ from django.template.loader import get_template
 from django.urls import resolve, reverse
 from django.utils.translation import gettext_lazy as _
 
+from pretix.api.signals import order_api_details
 from pretix.base.signals import event_copy_data, order_modified, order_placed
 from pretix.control.signals import nav_event_settings, order_info as control_order_info_signal
 from pretix.presale.signals import contact_form_fields, order_info as presale_order_info_signal
@@ -63,6 +64,21 @@ def order_question_fields(sender, **kwargs):
 @receiver(order_modified, dispatch_uid="pretix_order_questions_order_modified")
 def update_order_answers(sender, order, **kwargs):
     sync_order_answers(order)
+
+
+@receiver(order_api_details, dispatch_uid="pretix_order_questions_order_api_details")
+def order_questions_api_details(sender, order, **kwargs):
+    answers = order.order_question_answers.select_related("question").prefetch_related("question__options")
+    return {
+        "order_questions": [
+            {
+                "identifier": answer.question.identifier,
+                "question": str(answer.question),
+                "answer": answer.display_value,
+            }
+            for answer in answers
+        ]
+    }
 
 
 @receiver(event_copy_data, dispatch_uid="pretix_order_questions_copy_event")

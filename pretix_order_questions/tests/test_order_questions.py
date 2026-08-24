@@ -15,7 +15,9 @@ from pretix.testutils.sessions import get_cart_session_key
 
 from pretix_order_questions.models import OrderAnswer, OrderQuestion, OrderQuestionOption
 from pretix_order_questions.forms import OrderQuestionForm
-from pretix_order_questions.signals import _field_for_question, order_questions_settings_navigation
+from pretix_order_questions.signals import (
+    _field_for_question, order_questions_api_details, order_questions_settings_navigation,
+)
 
 
 class OrderQuestionTest(TestCase):
@@ -169,6 +171,13 @@ class OrderQuestionTest(TestCase):
         answer = OrderAnswer.objects.get(order=order, question=question)
         self.assertEqual(answer.value, "theatre")
         self.assertEqual(answer.display_value, "Theatre")
+        self.assertEqual(order_questions_api_details(self.event, order), {
+            "order_questions": [{
+                "identifier": "pickup",
+                "question": "Pickup point",
+                "answer": "Theatre",
+            }],
+        })
 
         order.meta_info = json.dumps({"contact_form_data": {question.form_key: ""}})
         order.save(update_fields=["meta_info"])
