@@ -75,6 +75,7 @@ def order_questions_api_details(sender, order, **kwargs):
                 "identifier": answer.question.identifier,
                 "question": str(answer.question),
                 "answer": answer.display_value,
+                "show_in_pos": answer.question.show_in_pos,
             }
             for answer in answers
         ]
@@ -92,6 +93,7 @@ def copy_event_questions(sender, other, **kwargs):
             type=source.type,
             required=source.required,
             active=source.active,
+            show_in_pos=source.show_in_pos,
             position=source.position,
         )
         OrderQuestionOption.objects.bulk_create([

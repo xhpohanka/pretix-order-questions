@@ -21,6 +21,7 @@
                     <th>{% trans "Type" %}</th>
                     <th>{% trans "Required" %}</th>
                     <th>{% trans "Active" %}</th>
+                    <th>{% trans "POS" %}</th>
                     <th>{% trans "Position" %}</th>
                     <th class="action-col-2"></th>
                 </tr>
@@ -32,6 +33,7 @@
                         <td>{{ question.get_type_display }}</td>
                         <td>{% if question.required %}<span class="fa fa-check"></span>{% endif %}</td>
                         <td>{% if question.active %}<span class="fa fa-check"></span>{% else %}<span class="text-muted">{% trans "No" %}</span>{% endif %}</td>
+                        <td>{% if question.show_in_pos %}<span class="fa fa-check"></span>{% endif %}</td>
                         <td>{{ question.position }}</td>
                         <td class="text-right flip">
                             <a class="btn btn-default btn-sm" href="{% url 'plugins:pretix_order_questions:edit' organizer=request.organizer.slug event=request.event.slug pk=question.pk %}"><span class="fa fa-edit"></span></a>
@@ -39,7 +41,7 @@
                         </td>
                     </tr>
                 {% empty %}
-                    <tr><td colspan="6">{% trans "No order questions have been configured." %}</td></tr>
+                    <tr><td colspan="7">{% trans "No order questions have been configured." %}</td></tr>
                 {% endfor %}
             </tbody>
         </table>

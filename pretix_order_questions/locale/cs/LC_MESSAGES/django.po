@@ -112,6 +112,10 @@ msgid "Ask this question during checkout"
 msgstr "Ptát se na tuto otázku během objednávky"
 
 #: pretix_order_questions/models.py:42
+msgid "Show answer in POS"
+msgstr "Zobrazit odpověď v POS"
+
+#: pretix_order_questions/models.py:42
 #: pretix_order_questions/templates/pretix_order_questions/list.html:24
 msgid "Position"
 msgstr "Pořadí"
@@ -198,6 +202,10 @@ msgstr "Povinná"
 #: pretix_order_questions/templates/pretix_order_questions/list.html:23
 msgid "Active"
 msgstr "Aktivní"
+
+#: pretix_order_questions/templates/pretix_order_questions/list.html:24
+msgid "POS"
+msgstr "POS"
 
 #: pretix_order_questions/templates/pretix_order_questions/list.html:42
 msgid "No order questions have been configured."

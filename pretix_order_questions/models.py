@@ -39,6 +39,7 @@ class OrderQuestion(models.Model):
     type = models.CharField(max_length=1, choices=TYPE_CHOICES, verbose_name=_("Question type"))
     required = models.BooleanField(default=False, verbose_name=_("Required question"))
     active = models.BooleanField(default=True, verbose_name=_("Ask this question during checkout"))
+    show_in_pos = models.BooleanField(default=False, verbose_name=_("Show answer in POS"))
     position = models.PositiveIntegerField(default=0, verbose_name=_("Position"))
 
     class Meta:

@@ -46,6 +46,7 @@ class OrderQuestionTest(TestCase):
             question="Pickup point",
             identifier="pickup",
             type=OrderQuestion.TYPE_CHOICE,
+            show_in_pos=True,
             required=True,
         )
         OrderQuestionOption.objects.create(
@@ -80,6 +81,7 @@ class OrderQuestionTest(TestCase):
             question="Pickup point",
             identifier="pickup",
             type=OrderQuestion.TYPE_CHOICE,
+            show_in_pos=True,
         )
         OrderQuestionOption.objects.create(question=question, identifier="theatre", answer="Theatre")
 
@@ -151,6 +153,7 @@ class OrderQuestionTest(TestCase):
             question="Pickup point",
             identifier="pickup",
             type=OrderQuestion.TYPE_CHOICE,
+            show_in_pos=True,
         )
         OrderQuestionOption.objects.create(question=question, identifier="theatre", answer="Theatre")
         order = Order.objects.create(
@@ -176,6 +179,7 @@ class OrderQuestionTest(TestCase):
                 "identifier": "pickup",
                 "question": "Pickup point",
                 "answer": "Theatre",
+                "show_in_pos": True,
             }],
         })
 
@@ -293,6 +297,7 @@ class OrderQuestionTest(TestCase):
             question="Pickup point",
             identifier="pickup",
             type=OrderQuestion.TYPE_CHOICE,
+            show_in_pos=True,
         )
         OrderQuestionOption.objects.create(question=question, identifier="theatre", answer="Theatre")
         copied_event = Event.objects.create(
@@ -307,6 +312,7 @@ class OrderQuestionTest(TestCase):
 
         copied = copied_event.order_questions.get(identifier="pickup")
         self.assertEqual(str(copied.question), "Pickup point")
+        self.assertTrue(copied.show_in_pos)
         self.assertEqual(copied.options.get().identifier, "theatre")
 
     @scopes_disabled()

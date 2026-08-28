@@ -38,7 +38,7 @@ class OrderQuestionForm(I18nModelForm):
     class Meta:
         model = OrderQuestion
         localized_fields = "__all__"
-        fields = ("question", "type", "required", "active", "position", "help_text", "identifier")
+        fields = ("question", "type", "required", "active", "show_in_pos", "position", "help_text", "identifier")
         widgets = {"help_text": I18nTextarea}
 
     def __init__(self, *args, **kwargs):
