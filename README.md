@@ -13,6 +13,8 @@ Supported question types:
 Answers are stored in dedicated `OrderAnswer` records linked directly to the pretix `Order`. They
 are shown in both the control panel and the customer-facing order detail and stay available when a
 question is disabled. Questions and their options are copied when an event is cloned.
+Each question can additionally opt in to showing its answer in POS order detail;
+leave that off for customer data staff do not need at the terminal.
 
 ## Installation
 
