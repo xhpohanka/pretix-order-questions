@@ -3,7 +3,7 @@ name = "pretix-order-questions"
 dynamic = ["version"]
 description = "Custom questions asked once per pretix order"
 readme = "README.md"
-license = {file = "LICENSE"}
+license = "Apache-2.0"
 requires-python = ">=3.11"
 authors = [
     {name = "Jan Pohanka"},
